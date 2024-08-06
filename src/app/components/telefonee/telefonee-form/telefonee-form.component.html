@@ -1,0 +1,13 @@
+<form [formGroup]="telefoneForm" (ngSubmit)="onSubmit()">
+
+    <label for="first-name">Descrição: </label>
+    <input id="first-name" type="text" formControlName="descricao">
+
+    <label for="last-name">Telefone: </label>
+    <input id="last-name" type="text" formControlName="numero">
+
+    <p>Complete the form to enable button.</p>
+    <button type="submit" [disabled]="!telefoneForm.valid">Salvar</button>
+    <button (click)="navegar_listagem()">Cancelar</button>
+
+</form>

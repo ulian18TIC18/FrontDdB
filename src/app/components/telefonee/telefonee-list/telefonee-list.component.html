@@ -1,0 +1,22 @@
+<button (click)="navegar_cadastro()">novo</button>
+<table>
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Número</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (t of telefonese.registros; track $index) {
+        <tr>
+            <td>{{ t.descricao }}</td>
+            <td>{{ t.numero }}</td>
+            <td>
+                <button (click)="navegar_edicao(t.id)">editar</button>
+                <button (click)="removerRegistro(t)">remover</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
