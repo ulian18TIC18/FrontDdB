@@ -5,10 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TelefoneeModule } from './components/telefonee/telefonee.module';
 import { HttpClientModule } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { DialogConfirmacaoComponent } from './components/shared/dialog-confirmacao/dialog-confirmacao.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogConfirmacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -16,7 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     TelefoneeModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync('noop')
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

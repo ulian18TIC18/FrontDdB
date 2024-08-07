@@ -1,0 +1,24 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="m-0">
+            <em class="fas fa-exclamation-triangle"></em>
+            {{ data.titulo }}
+        </h5>
+        <button title="Fechar" class="btn btn-light ml-4" matDialogClose>
+            <em class="fas fa-times"></em>
+        </button>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+            {{ data.mensagem }}
+        </p>
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-accept mr-3" (click)="onClickSim()">
+            {{ data.labelSim }}
+        </button>
+        <button type="button" class="btn btn-dark" (click)="onNoClickNao()">
+            {{ data.labelNao }}
+        </button>
+    </div>
+</div>

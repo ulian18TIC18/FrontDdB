@@ -3,6 +3,8 @@ import { TelefoneEmergencial } from '../../../core/model/telefone-emergencial.mo
 import { TelefoneEmergencialService } from '../../../core/service/telefone-emergencial.service';
 import { PagTelefonee } from '../../../core/model/pag-telefonee.model';
 import { Router } from '@angular/router';
+import { DialogConfirmacaoComponent } from '../../shared/dialog-confirmacao/dialog-confirmacao.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-telefonee-list',
@@ -23,6 +25,7 @@ export class TelefoneeListComponent implements OnInit {
   };
   
   constructor(
+    private dialog: MatDialog,
     private router: Router,
     private telefoneService: TelefoneEmergencialService
   ) { }
@@ -44,13 +47,31 @@ export class TelefoneeListComponent implements OnInit {
   }
 
   removerRegistro(registro: TelefoneEmergencial): void {
-    this.telefoneService.remover(registro.id)
-        .subscribe({
-          next: (data) => {
-            this.listar()
-          },
-          error: (e) => console.error(e)
-        });
+
+    const dialogRef = this.dialog.open(DialogConfirmacaoComponent, {
+      width: '30%',
+      data: {
+        titulo: 'Confirmação',
+        mensagem: 'Deseja realmente excluir?',
+      },
+      panelClass: 'dialog-no-padding',
+    });
+
+    dialogRef.afterClosed().subscribe((confirm: boolean) => {
+      if (confirm) {
+
+        this.telefoneService.remover(registro.id)
+            .subscribe({
+              next: (data) => {
+                this.listar()
+              },
+              error: (e) => console.error(e)
+            });
+
+      }
+    });
+
+
   }
 
 }
