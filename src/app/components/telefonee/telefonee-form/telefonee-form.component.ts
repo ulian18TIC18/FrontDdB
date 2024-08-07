@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TelefoneEmergencial } from '../../../core/model/telefone-emergencial.model';
 import { TelefoneEmergencialService } from '../../../core/service/telefone-emergencial.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificacaoService, StandardError, TipoNotificacao } from '../../../core/helper/notificacao.service';
 
 @Component({
   selector: 'app-telefonee-form',
@@ -32,6 +33,7 @@ export class TelefoneeFormComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private notificacaoService: NotificacaoService,
     private router: Router,
     private telefoneService: TelefoneEmergencialService
   ) { }
@@ -72,20 +74,41 @@ export class TelefoneeFormComponent implements OnInit {
       this.telefoneService.atualizar(this.id_registro, this.telefoneForm.value as TelefoneEmergencial)
         .subscribe({
           next: (data) => {
-            console.log('Atualizou');
-            console.log(data);
+            this.notificacaoService.openNotificacao(
+              {
+                mensagem: `Telefone (${data.numero}) atualizado com sucesso!`,
+                titulo: 'Sucesso',
+              },
+              TipoNotificacao.SUCESSO
+            );
             this.navegar_listagem();
           },
-          error: (e) => console.error(e)
+          error: (e) => {
+            this.notificacaoService.showNotificationError(
+              e.error as StandardError,
+              'Falha ao tentar atualizar telefone'
+            );
+          }
         });
     } else {
       this.telefoneService.criar(this.telefoneForm.value as TelefoneEmergencial)
         .subscribe({
           next: (data) => {
-            console.log(data);
+            this.notificacaoService.openNotificacao(
+              {
+                mensagem: `Telefone (${data.numero}) cadastrado com sucesso!`,
+                titulo: 'Sucesso',
+              },
+              TipoNotificacao.SUCESSO
+            );
             this.navegar_listagem();
           },
-          error: (e) => console.error(e)
+          error: (e) => {
+            this.notificacaoService.showNotificationError(
+              e.error as StandardError,
+              'Falha ao tentar cadastrar telefone'
+            );
+          }
         });
     }
 

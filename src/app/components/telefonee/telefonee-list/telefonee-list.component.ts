@@ -5,6 +5,7 @@ import { PagTelefonee } from '../../../core/model/pag-telefonee.model';
 import { Router } from '@angular/router';
 import { DialogConfirmacaoComponent } from '../../shared/dialog-confirmacao/dialog-confirmacao.component';
 import { MatDialog } from '@angular/material/dialog';
+import { NotificacaoService, StandardError, TipoNotificacao } from '../../../core/helper/notificacao.service';
 
 @Component({
   selector: 'app-telefonee-list',
@@ -26,6 +27,7 @@ export class TelefoneeListComponent implements OnInit {
   
   constructor(
     private dialog: MatDialog,
+    private notificacaoService: NotificacaoService,
     private router: Router,
     private telefoneService: TelefoneEmergencialService
   ) { }
@@ -63,9 +65,21 @@ export class TelefoneeListComponent implements OnInit {
         this.telefoneService.remover(registro.id)
             .subscribe({
               next: (data) => {
+                this.notificacaoService.openNotificacao(
+                  {
+                    titulo: 'Sucesso',
+                    mensagem: 'Telefone removido com sucesso',
+                  },
+                  TipoNotificacao.SUCESSO
+                );
                 this.listar()
               },
-              error: (e) => console.error(e)
+              error: (e) => {
+                this.notificacaoService.showNotificationError(
+                  e.error as StandardError,
+                  'Falha ao tentar remover telefone'
+                );
+              }
             });
 
       }

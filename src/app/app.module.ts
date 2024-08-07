@@ -7,11 +7,13 @@ import { TelefoneeModule } from './components/telefonee/telefonee.module';
 import { HttpClientModule } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DialogConfirmacaoComponent } from './components/shared/dialog-confirmacao/dialog-confirmacao.component';
+import { NotificacaoComponent } from './components/shared/notificacao/notificacao.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogConfirmacaoComponent
+    DialogConfirmacaoComponent,
+    NotificacaoComponent
   ],
   imports: [
     BrowserModule,
