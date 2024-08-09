@@ -1,0 +1,40 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+
+        <li class="page-item" [class.disabled]="pagina_atual === 1">
+            <button class="page-link" (click)="enviar_pagina_selecionada(pags[0])">
+                <span>&laquo;</span>
+            </button>
+        </li>
+
+        <li class="page-item" [class.disabled]="pagina_atual === 1">
+            <button class="page-link" (click)="enviar_pagina_selecionada(anterior)">
+                <span>&#8249;</span>
+            </button>
+        </li>
+
+        @for (p of pags; track $index) {
+        <li class="page-item">
+            <button 
+                class="page-link"
+                [ngClass]="{ active: pagina_atual === p}"
+                (click)="enviar_pagina_selecionada(p)">
+                <span>{{p}}</span>
+            </button>
+        </li>
+        }
+
+        <li class="page-item" [class.disabled]="pagina_atual === pags.length">
+            <button class="page-link" (click)="enviar_pagina_selecionada(proxima)">
+                <span>&#8250;</span>
+            </button>
+        </li>
+
+        <li class="page-item"[class.disabled]="pagina_atual === pags.length">
+            <button class="page-link" (click)="enviar_pagina_selecionada(pags[pags.length - 1])">
+                <span>&raquo;</span>
+            </button>
+        </li>
+        
+    </ul>
+</nav>

@@ -4,6 +4,7 @@ import { TelefoneeListComponent } from './telefonee-list/telefonee-list.componen
 import { TelefoneeFormComponent } from './telefonee-form/telefonee-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../../app-routing.module';
+import { PaginadorComponent } from '../shared/paginador/paginador.component';
 
 
 
@@ -15,7 +16,8 @@ import { AppRoutingModule } from '../../app-routing.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    PaginadorComponent
   ]
 })
 export class TelefoneeModule { }

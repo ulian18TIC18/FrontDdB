@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DialogConfirmacaoComponent } from '../../shared/dialog-confirmacao/dialog-confirmacao.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificacaoService, StandardError, TipoNotificacao } from '../../../core/helper/notificacao.service';
+import { FiltroTelE } from '../../../core/model/filtro-tel-e.model';
 
 @Component({
   selector: 'app-telefonee-list',
@@ -14,16 +15,9 @@ import { NotificacaoService, StandardError, TipoNotificacao } from '../../../cor
 })
 export class TelefoneeListComponent implements OnInit {
 
-  telefonese: PagTelefonee = {
-    registros: [],
-    total_registros: 0,
-    max_registros_pagina: 0,
-    pagina_atual: 0,
-    total_paginas: 0,
-    proxima: 0,
-    anterior: 0,
-    ordenacao: ''  
-  };
+  telefonese: PagTelefonee = new PagTelefonee();
+
+  filtro: FiltroTelE = new FiltroTelE();
   
   constructor(
     private dialog: MatDialog,
@@ -37,7 +31,28 @@ export class TelefoneeListComponent implements OnInit {
   }
 
   listar(): void {
-    this.telefoneService.listar().subscribe(telefones => this.telefonese = telefones);
+    this.telefoneService.listar(new FiltroTelE())
+      .subscribe(telefones => {
+        this.telefonese = telefones
+      });
+  }
+
+  onPaginadorClicked(pag_selecionada: number): void {
+    this.filtro.pag = pag_selecionada;
+    this.telefoneService.listar(this.filtro)
+      .subscribe(
+        {
+          next: (telefones) => {
+            this.telefonese = telefones
+          },
+          error: (e) => {
+            this.notificacaoService.showNotificationError(
+              e.error as StandardError,
+              'Falha ao tentar listar telefones'
+            );
+          }
+        }
+      );
   }
 
   navegar_edicao(id: number): void {

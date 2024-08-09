@@ -29,4 +29,16 @@
             }
         </tbody>
     </table>
+
+    <div class="form-row mt-3 d-flex justify-content-center">
+        <app-paginador
+            [pagina-atual]="telefonese.pagina_atual"
+            [total-paginas]="telefonese.total_paginas"
+            [total-registros]="telefonese.total_registros"
+            [max-registros-pagina]="telefonese.max_registros_pagina"
+            [proxima]="telefonese.proxima"
+            [anterior]="telefonese.anterior"
+            (pag-selecionada)="onPaginadorClicked($event)"
+        />
+    </div>
 </div>
