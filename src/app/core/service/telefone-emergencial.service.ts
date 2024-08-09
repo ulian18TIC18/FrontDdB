@@ -16,8 +16,16 @@ export class TelefoneEmergencialService {
 
   constructor(private http: HttpClient) { }
 
-  listar(filtro: FiltroTelE): Observable<PagTelefonee> {
-    const params = new HttpParams({ fromObject: filtro as any });
+  listar(filtro: { [key: string]: any }): Observable<PagTelefonee> {
+    let params = new HttpParams();
+
+    Object.keys(filtro).forEach(key => {
+      const value = filtro[key];
+      if (value !== null && value !== undefined) {
+        params = params.set(key, value.toString());
+      }
+    });
+
     return this.http.get<PagTelefonee>(
       `${this.apiUrl}/`,
       { params }

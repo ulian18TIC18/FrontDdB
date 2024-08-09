@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { DialogConfirmacaoComponent } from '../../shared/dialog-confirmacao/dialog-confirmacao.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificacaoService, StandardError, TipoNotificacao } from '../../../core/helper/notificacao.service';
-import { FiltroTelE } from '../../../core/model/filtro-tel-e.model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-telefonee-list',
@@ -17,7 +17,11 @@ export class TelefoneeListComponent implements OnInit {
 
   telefonese: PagTelefonee = new PagTelefonee();
 
-  filtro: FiltroTelE = new FiltroTelE();
+  telefoneForm = new FormGroup({
+    descricao: new FormControl(),
+    numero: new FormControl(),
+    pag: new FormControl()
+  });
   
   constructor(
     private dialog: MatDialog,
@@ -31,15 +35,20 @@ export class TelefoneeListComponent implements OnInit {
   }
 
   listar(): void {
-    this.telefoneService.listar(new FiltroTelE())
+    this.telefoneService.listar(this.telefoneForm.value)
       .subscribe(telefones => {
         this.telefonese = telefones
       });
   }
 
+  limparFiltros(): void {
+    this.telefoneForm.reset();
+    this.listar();
+  }
+
   onPaginadorClicked(pag_selecionada: number): void {
-    this.filtro.pag = pag_selecionada;
-    this.telefoneService.listar(this.filtro)
+    this.telefoneForm.patchValue({pag: pag_selecionada});
+    this.telefoneService.listar(this.telefoneForm.value)
       .subscribe(
         {
           next: (telefones) => {
