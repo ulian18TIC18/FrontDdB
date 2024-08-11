@@ -8,6 +8,7 @@ const routes: Routes = [
     path: '',
     component: TelefoneeListComponent,
   },
+  { path: 'telefone', component: TelefoneeListComponent },
   { path: 'telefone/form', component: TelefoneeFormComponent },
   { path: 'telefone/form/:id', component: TelefoneeFormComponent }
 ];
